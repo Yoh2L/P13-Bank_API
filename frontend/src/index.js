@@ -1,15 +1,23 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
 import { Provider } from "react-redux";
-import App from "./App";
+import MainRoutes from "./routes/Routes";
 import "./styles/index.css";
-import store from "./app/store";
+import store from "./store/store";
+import { getToken } from "./utils/HelperFunctions";
+import { fetchUserData } from "./store/slices/authThunk";
+import history from "./utils/history";
+import { BrowserRouter } from "react-router-dom";
+
+if (getToken()) {
+	store.dispatch(fetchUserData());
+}
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
-	<React.StrictMode>
-		{/* <Provider store={"store"}> */}
-		<App />
-		{/* </Provider> */}
-	</React.StrictMode>
+	<BrowserRouter location={history.location} navigator={history}>
+		<Provider store={store}>
+			<MainRoutes />
+		</Provider>
+	</BrowserRouter>
 );
