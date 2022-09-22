@@ -4,7 +4,7 @@ import { fetchUserData, login, signOut } from "./authThunk";
 
 const initialState = {
 	token: null,
-	loading: false,
+	loading: true,
 	userData: {},
 };
 
@@ -14,7 +14,7 @@ export const authSlice = createSlice({
 	reducers: {},
 	extraReducers: {
 		[signOut.fulfilled]: (state, action) => {
-			state.loading = false;
+			state.loading = true;
 			state.userData = {};
 			state.token = null;
 		},
@@ -40,7 +40,7 @@ export const authSlice = createSlice({
 			state.loading = false;
 		},
 		[fetchUserData.rejected]: (state, action) => {
-			state.loading = false;
+			state.loading = true;
 			state.userData = {};
 			state.token = null;
 		},

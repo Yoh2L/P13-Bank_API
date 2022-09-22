@@ -1,23 +1,24 @@
-import React, { useState } from "react";
-import { getToken } from "../utils/HelperFunctions";
+import React, { useEffect, useState } from "react";
 import { login } from "../store/slices/authThunk";
-import { useSelector, useDispatch } from "react-redux";
-import history from "../utils/history";
-import Loading from "../components/Loading";
+import { useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
 
 const Login = () => {
 	const [email, setEmail] = useState("");
 	const [password, setPassword] = useState("");
 	const dispatch = useDispatch();
-	const { token, loading } = useSelector((state) => state.auth);
+	const navigate = useNavigate();
 
-	if (token || getToken()) {
-		history.push("/dashboard");
-	}
-
-	const handleLogin = (e) => {
+	const handleLogin = async (e) => {
 		e.preventDefault();
-		dispatch(login({ email, password }));
+		await dispatch(login({ email, password }));
+		console.log(localStorage.token);
+		checkToken();
+	};
+	const checkToken = () => {
+		if (localStorage.token) {
+			navigate("/dashboard");
+		}
 	};
 
 	return (
@@ -47,14 +48,9 @@ const Login = () => {
 						<label htmlFor="remember-me">Remember me</label>
 					</div>
 
-					{loading ? (
-						<Loading />
-					) : (
-						<button onClick={handleLogin} className="sign-in-button">
-							{" "}
-							Sign In
-						</button>
-					)}
+					<button onClick={handleLogin} className="sign-in-button">
+						Sign In
+					</button>
 				</form>
 			</section>
 		</main>

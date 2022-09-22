@@ -6,7 +6,6 @@ import "./styles/index.css";
 import store from "./store/store";
 import { getToken } from "./utils/HelperFunctions";
 import { fetchUserData } from "./store/slices/authThunk";
-import history from "./utils/history";
 import { BrowserRouter } from "react-router-dom";
 
 if (getToken()) {
@@ -15,7 +14,7 @@ if (getToken()) {
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
-	<BrowserRouter location={history.location} navigator={history}>
+	<BrowserRouter>
 		<Provider store={store}>
 			<MainRoutes />
 		</Provider>

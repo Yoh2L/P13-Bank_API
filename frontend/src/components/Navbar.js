@@ -1,13 +1,19 @@
 import React from "react";
 import argentBankLogo from "../assets/argentBankLogo.png";
 import { getToken } from "../utils/HelperFunctions";
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { signOut } from "../store/slices/authThunk";
 
 const Navbar = () => {
 	const { token } = useSelector((state) => state.auth);
 	const dispatch = useDispatch();
+	const navigate = useNavigate();
+
+	const handleLogOut = () => {
+		dispatch(signOut());
+		navigate("/login");
+	};
 
 	return (
 		<>
@@ -20,7 +26,7 @@ const Navbar = () => {
 					/>
 				</NavLink>
 				{token || getToken() ? (
-					<div className="main-div-item" onClick={() => dispatch(signOut())}>
+					<div className="main-div-item" onClick={handleLogOut}>
 						<i className="fa fa-user-circle"></i>
 						Log out
 					</div>
