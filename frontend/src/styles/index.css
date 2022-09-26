@@ -42,7 +42,8 @@ body {
 	padding: 5px 20px;
 }
 
-.main-nav a {
+.main-nav a,
+.navbar-logout {
 	font-weight: bold;
 	color: #2c3e50;
 }

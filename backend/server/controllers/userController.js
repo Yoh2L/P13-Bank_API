@@ -19,7 +19,6 @@ module.exports.createUser = async (req, res) => {
 
 module.exports.loginUser = async (req, res) => {
 	let response = {};
-	console.log(req.body);
 	try {
 		const responseFromService = await userService.loginUser(req.body);
 		response.status = 200;
@@ -47,7 +46,6 @@ module.exports.getUserProfile = async (req, res) => {
 		response.status = 400;
 		response.message = error.message;
 	}
-
 	return res.status(response.status).send(response);
 };
 

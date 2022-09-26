@@ -26,7 +26,7 @@ const Navbar = () => {
 					/>
 				</NavLink>
 				{token || getToken() ? (
-					<div className="main-div-item" onClick={handleLogOut}>
+					<div className="main-div-item navbar-logout" onClick={handleLogOut}>
 						<i className="fa fa-user-circle"></i>
 						Log out
 					</div>

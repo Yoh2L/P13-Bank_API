@@ -10,9 +10,18 @@ export const fetchUserData = createAsyncThunk(
 	async (_, { rejectWithValue }) => {
 		try {
 			const accesToken = getToken();
-			api.defaults.headers.Authorization = `Bearer ${accesToken}`;
-			const response = await axios.get(api + "profile");
-			return { ...response.data, accesToken };
+			const payload = {
+				method: "POST",
+				headers: {
+					"Content-Type": "application/json",
+					Authorization: "Bearer" + accesToken,
+				},
+			};
+			const response = await axios(api + "profile", payload);
+			return {
+				userData: response.data.body,
+				accesToken: accesToken,
+			};
 		} catch (e) {
 			removeToken();
 			return rejectWithValue("");
@@ -35,3 +44,33 @@ export const login = createAsyncThunk("auth/login", async (payload) => {
 export const signOut = createAsyncThunk("auth/signOut", async () => {
 	removeToken();
 });
+
+export const updateUserData = createAsyncThunk(
+	"auth/updateUserData",
+	async (updatedProfile, { rejectWithValue }) => {
+		try {
+			const accesToken = getToken();
+			const payload = {
+				method: "PUT",
+				headers: {
+					"Content-Type": "application/json",
+					Authorization: "Bearer" + accesToken,
+				},
+				body: JSON.stringify(updatedProfile),
+			};
+
+			const response = await fetch(
+				"http://localhost:3001/api/v1/user/profile",
+				payload
+			);
+			const jsonResponse = await response.json();
+			return {
+				userData: jsonResponse.body,
+				accesToken: accesToken,
+			};
+		} catch (e) {
+			removeToken();
+			return rejectWithValue("");
+		}
+	}
+);

@@ -7,3 +7,9 @@ export const removeToken = () => {
 export const setToken = (val) => {
 	localStorage.setItem("token", val);
 };
+export const setUser = (val) => {
+	sessionStorage.setItem("user", val);
+};
+export const removeUser = () => {
+	sessionStorage.removeItem("user");
+};

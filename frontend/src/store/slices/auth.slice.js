@@ -1,6 +1,6 @@
 /* eslint-disable no-empty-pattern */
 import { createSlice } from "@reduxjs/toolkit";
-import { fetchUserData, login, signOut } from "./authThunk";
+import { fetchUserData, login, signOut, updateUserData } from "./authThunk";
 
 const initialState = {
 	token: null,
@@ -13,36 +13,49 @@ export const authSlice = createSlice({
 	initialState,
 	reducers: {},
 	extraReducers: {
-		[signOut.fulfilled]: (state, action) => {
+		[signOut.fulfilled]: (state) => {
 			state.loading = true;
 			state.userData = {};
 			state.token = null;
 		},
-		[login.pending]: (state, action) => {
+		[login.pending]: (state) => {
 			state.loading = true;
 		},
 		[login.fulfilled]: (state, action) => {
-			const { accesToken, user } = action.payload;
+			const { accesToken } = action.payload;
 			state.token = accesToken;
-			state.userData = user;
+			state.userData = "";
 			state.loading = false;
 		},
-		[login.rejected]: (state, action) => {
-			state.loading = true;
-		},
-		[fetchUserData.pending]: (state, action) => {
+		[login.rejected]: (state) => {
 			state.loading = true;
 		},
 		[fetchUserData.fulfilled]: (state, action) => {
-			const { accesToken, user } = action.payload;
+			const { accesToken, userData } = action.payload;
 			state.token = accesToken;
-			state.userData = user;
+			state.userData = userData;
 			state.loading = false;
 		},
-		[fetchUserData.rejected]: (state, action) => {
+		[fetchUserData.rejected]: (state) => {
 			state.loading = true;
 			state.userData = {};
 			state.token = null;
+		},
+		[updateUserData.pending]: (state) => {
+			state.loading = true;
+		},
+		[updateUserData.fulfilled]: (state, action) => {
+			console.log("action.payload: ", action.payload);
+			state.token = action.payload.accesToken;
+			state.userData = action.payload.userData;
+			state.loading = false;
+		},
+		[updateUserData.rejected]: (state, action) => {
+			const accesToken = action.payload;
+
+			state.token = accesToken;
+			state.userData = {};
+			state.loading = false;
 		},
 	},
 });
