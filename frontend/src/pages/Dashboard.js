@@ -19,6 +19,7 @@ const Dashboard = () => {
 		SetIsLoading(false);
 	}, [isLoading]);
 
+	//On click on edit button, copy the value from redux to useState
 	const handleEdit = () => {
 		setUpdatedFirstName(profile.firstName);
 		setUpdatedLastName(profile.lastName);
@@ -29,6 +30,7 @@ const Dashboard = () => {
 		setEdit(false);
 	};
 
+	//On save, send updated datas to middleware
 	async function handleChange(e) {
 		e.preventDefault();
 

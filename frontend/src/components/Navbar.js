@@ -10,9 +10,10 @@ const Navbar = () => {
 	const dispatch = useDispatch();
 	const navigate = useNavigate();
 
+	// Remove the token from localStorage and go back to home page
 	const handleLogOut = () => {
 		dispatch(signOut());
-		navigate("/login");
+		navigate("/");
 	};
 
 	return (

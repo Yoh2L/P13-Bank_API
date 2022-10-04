@@ -12,6 +12,10 @@ export const authSlice = createSlice({
 	name: "auth",
 	initialState,
 	reducers: {},
+	/*
+	extraReducers assign datas to store depending of status :
+	pending, fulfilled or rejected 
+	*/
 	extraReducers: {
 		[signOut.fulfilled]: (state) => {
 			state.loading = true;
@@ -45,14 +49,12 @@ export const authSlice = createSlice({
 			state.loading = true;
 		},
 		[updateUserData.fulfilled]: (state, action) => {
-			console.log("action.payload: ", action.payload);
 			state.token = action.payload.accesToken;
 			state.userData = action.payload.userData;
 			state.loading = false;
 		},
 		[updateUserData.rejected]: (state, action) => {
 			const accesToken = action.payload;
-
 			state.token = accesToken;
 			state.userData = {};
 			state.loading = false;

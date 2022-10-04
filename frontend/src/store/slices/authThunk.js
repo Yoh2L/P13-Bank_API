@@ -29,7 +29,7 @@ export const fetchUserData = createAsyncThunk(
 	}
 );
 
-// This action is simple, it needs a payload and the failure we will handle in the extraReducers.
+// This action needs a payload and the failure we will handle in the extraReducers.
 export const login = createAsyncThunk("auth/login", async (payload) => {
 	const response = await axios.post(api + "login", payload);
 
@@ -45,6 +45,9 @@ export const signOut = createAsyncThunk("auth/signOut", async () => {
 	removeToken();
 });
 
+// This action need a payload : the updated profile (firstname and lastname)
+// Datas will be send to the backend through a "PUT" method
+// If the action is rejected, we will just clean the “global state”.
 export const updateUserData = createAsyncThunk(
 	"auth/updateUserData",
 	async (updatedProfile, { rejectWithValue }) => {
@@ -69,7 +72,6 @@ export const updateUserData = createAsyncThunk(
 				accesToken: accesToken,
 			};
 		} catch (e) {
-			removeToken();
 			return rejectWithValue("");
 		}
 	}

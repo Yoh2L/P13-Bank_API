@@ -4,39 +4,31 @@ import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
-import { removeUser, setUser } from "../utils/HelperFunctions";
+import { saveUser } from "../utils/HelperFunctions";
 
 const Login = () => {
-	//
-	const [email, setEmail] = useState(sessionStorage.getItem("user") || "");
+	//Check if there's an email in localStorage
+	const [email, setEmail] = useState(localStorage.getItem("user") || "");
 	const [password, setPassword] = useState("");
 	const [rememberMe, setRememberMe] = useState(false);
 	const dispatch = useDispatch();
 	const navigate = useNavigate();
 
+	//On login, send email and password to middleware
+	//If remember me, set email in localStorage
 	const handleLogin = async (e) => {
 		e.preventDefault();
 		await dispatch(login({ email, password }));
 		if (rememberMe) {
-			setUser(email);
-		} else {
-			removeUser();
+			saveUser(email);
 		}
 		checkToken();
 	};
 
+	//If there's a token, navigate to dashboard
 	const checkToken = () => {
 		if (localStorage.token) {
 			navigate("/dashboard");
-		}
-	};
-
-	const handleRemember = () => {
-		if (rememberMe) {
-			setRememberMe(false);
-		}
-		if (!rememberMe) {
-			setRememberMe(true);
 		}
 	};
 
@@ -69,7 +61,7 @@ const Login = () => {
 							<input
 								type="checkbox"
 								id="remember-me"
-								onClick={handleRemember}
+								onClick={() => setRememberMe(!rememberMe)}
 							/>
 							<label htmlFor="remember-me">Remember me</label>
 						</div>
