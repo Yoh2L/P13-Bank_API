@@ -5,8 +5,9 @@ import { NavLink, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { signOut } from "../store/slices/authThunk";
 
-const Navbar = ({ firstname }) => {
+const Navbar = () => {
 	const { token } = useSelector((state) => state.auth);
+	const profile = useSelector((state) => state.auth.userData);
 	const dispatch = useDispatch();
 	const navigate = useNavigate();
 
@@ -28,12 +29,12 @@ const Navbar = ({ firstname }) => {
 				</NavLink>
 				{token || getToken() ? (
 					<div className="main-nav-login ">
-						<div cldivss="main-nav-item">
-							<i class="fa fa-user-circle"></i>
-							{firstname}
+						<div className="main-nav-item">
+							<i className="fa fa-user-circle"></i>
+							{profile.firstName}
 						</div>
-						<div class="main-nav-item" onClick={handleLogOut}>
-							<i class="fa fa-sign-out"></i>
+						<div className="main-nav-item" onClick={handleLogOut}>
+							<i className="fa fa-sign-out"></i>
 							Sign Out
 						</div>
 					</div>

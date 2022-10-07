@@ -47,7 +47,7 @@ const Dashboard = () => {
 			{isLoading && <Loading />}
 			{!isLoading && (
 				<>
-					<Navbar firstname={profile.firstName} />
+					<Navbar />
 					<main className="main bg-dark">
 						{!edit ? (
 							<div className="header">
